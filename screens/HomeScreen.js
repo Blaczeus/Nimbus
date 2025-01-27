@@ -178,7 +178,10 @@ const HomeScreen = () => {
               </View>
 
               {locations.length > 0 && showSearch ? (
-                <View className="absolute w-[100%] bg-gray-300 top-24 rounded-3xl">
+                <View
+                  className="absolute w-[100%] bg-gray-300 top-24 rounded-3xl mx-auto"
+                  style={{ alignSelf: "center", justifyContent: "center" }}
+                >
                   {locations.map((location, index) => {
                     let showBorder = index !== locations.length - 1;
                     let borderClass = showBorder

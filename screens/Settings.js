@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
   Switch,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -57,37 +58,58 @@ const Settings = () => {
   }, [temperatureUnit, speedUnit, pressureUnit, updateAutomatically]);
 
   const Dropdown = ({ title, value, options, onChange, isOpen, setOpen }) => (
-    <View className="mb-4">
+    <View className="mb-4 flex">
+      {/* Dropdown Header */}
       <TouchableOpacity
-        className="flex-row items-center justify-between py-4"
+        className="flex-row items-center justify-between py-3 px-4"
         onPress={() => setOpen(!isOpen)}
       >
-        <Text className="text-white">{title}</Text>
+        <Text className="text-white text-lg">{title}</Text>
         <View className="flex-row items-center">
           <Text className="text-gray-400 mr-2">{value}</Text>
-          <ChevronDownIcon size={16} color="#ffffff" />
+          <ChevronDownIcon size={20} color="#ffffff" />
         </View>
       </TouchableOpacity>
+
+      {/* Dropdown Options */}
       {isOpen && (
-        <View className=" flex-col justify-end items-end absolute w-[30%] bg-transparent top-full left-0 rounded-md shadow-lg z-50">
-          {options.map((option) => (
-            <TouchableOpacity
-              key={option.value}
-              className="p-4"
-              onPress={() => {
-                onChange(option.value);
-                setOpen(false);
-              }}
-            >
-              <Text
-                className={`text-white ${
-                  value === option.value ? "font-bold" : ""
+        <View
+          className="absolute w-[40%] bg-gray-600 rounded-lg mt-4 z-50"
+          style={{
+            justifyContent: "flex-end",
+            alignSelf: "flex-end",
+            marginTop: 40,
+            maxHeight: 200,
+            overflow: "hidden",
+          }}
+        >
+          <ScrollView
+            style={{ maxHeight: 200 }}
+            contentContainerStyle={{
+              paddingVertical: 4,
+            }}
+          >
+            {options.map((option) => (
+              <TouchableOpacity
+                key={option.value}
+                className={`p-3 rounded-md ${
+                  value === option.value ? "bg-gray-600" : "hover:bg-gray-800"
                 }`}
+                onPress={() => {
+                  onChange(option.value);
+                  setOpen(false);
+                }}
               >
-                {option.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text
+                  className={`text-white text-base ${
+                    value === option.value ? "font-bold" : "font-normal"
+                  }`}
+                >
+                  {option.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
       )}
     </View>
